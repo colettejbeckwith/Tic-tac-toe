@@ -1,0 +1,224 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+h1, .footer {
+    padding: .5rem;
+    text-align: center;
+    color: whitesmoke;
+}
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: whitesmoke;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: rgb(36, 35, 35);
+}
+
+dialog {
+    margin: auto;
+}
+
+.header, .footer {
+    background-color: rgba(61, 61, 228, 0.333);
+}
+
+.content-pane {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.tic-tac-toe-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 500px;
+    max-width: 90vw;
+    gap: 7px;
+}
+
+.grid-cell {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1 / 1;
+    border: 3px solid rgba(61, 61, 228, 0.333);
+    background-color: beige;
+    box-shadow: 1px 2px 5px rgb(220, 219, 219);
+    transition: background-color 0.1s ease, transform 0.1s ease;
+    will-change: transform, background-color;
+    border-radius: 5px;
+}
+
+.grid-cell img {
+    width: 80%;
+    height: 80%;
+    pointer-events: none;
+}
+
+.grid-cell:hover {
+    background-color: rgb(245, 245, 238);
+}
+
+.grid-cell:active, .ttt-button:active {
+    box-shadow: none;
+    transform: translateY(1px);
+}
+
+.ttt-button {
+    background-color: rgba(61, 61, 228, 0.333);
+    border: none;
+    border-radius: 15px;
+    width: 100px;
+    height: 30px;
+    color: white;
+    font-size: large;
+    font-weight: bold;
+    transition: all 0.1s ease;
+    box-shadow: 1px 2px 5px rgb(220, 219, 219);
+}
+
+.new-game-modal {
+    border: none;
+    outline: none;
+    outline: 8px solid darkgray;
+    box-shadow: 3px 2px 15px rgb(38, 38, 38);
+    width: 600px;
+    height: 630px;
+    background-color: rgb(250, 250, 250);
+    
+}
+
+.new-game-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+}
+
+
+.ttt-button:hover {
+    background-color: rgba(0, 0, 224, 0.333);
+}
+
+.submit-cancel-buttons {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 40px;
+    align-items: center;
+}
+
+.submit-cancel-buttons button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    height: 40px;
+    letter-spacing: .08rem;
+}
+
+.player-entries {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    gap: 35px;
+}
+
+.new-game-form h2 {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+
+input {
+    width: 200px;
+    height: 40px;
+    font-size: larger;
+    border-radius: 25px;
+    text-align: center;
+    caret-color: transparent;
+    outline: 1px solid darkgray;
+    border: none;
+}
+
+input:focus {
+    outline: 4px solid rgba(61, 61, 228, 0.333);
+}
+
+.player-one-entry input, .player-two-entry input {
+    margin-top: 20px;
+}
+
+.score-card {
+    /* width: 100%; */
+    display: flex;
+    flex-direction: row;
+    gap: 85px;
+    align-items: center;
+    /* padding: 50px; */
+    /* background-color: green; */
+}
+
+.player-card {
+    border-radius: 80%;
+    padding: 30px;
+    /* width: 170px; */
+    /* height: 170px; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 150px;
+    aspect-ratio: 1;
+}
+
+.player-card {
+    /* border: 3px solid rgba(61, 61, 228, 0.6); */
+    /* outline-offset: 12px; */
+    /* padding: 0px 20px; */
+    /* box-shadow: inset 1px 1px 15px darkgray; */
+}
+
+.player-name {
+    font-size: larger;
+    font-weight: bold;
+}
+
+.game-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 45px;
+    width: 100%;
+    margin: auto 0;
+}
+
+.winning-cell {
+    background-color: gold;
+}
+
+.winning-cell:hover {
+    background-color: gold;
+}

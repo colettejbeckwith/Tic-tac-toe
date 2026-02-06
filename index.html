@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Tic-Tac-Toe</title>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Tic-Tac-Toe</h1>
+        </div>
+        <div class="content-pane">
+            <div class="game-area">
+                <div class="score-card">
+                    <div class="player-card">
+                        <img src="./images/x-image.svg" alt="image for player one">
+                        <div class="player-name" id="player-one-name">PlayerOne</div>
+                    </div>
+                    <div class="player-card">
+                        <img src="./images/o-image.svg" alt="image for player 2">
+                        <div class="player-name" id="player-two-name">PlayerTwo</div>
+                    </div>
+                </div>
+                <div class="tic-tac-toe-grid"></div>
+            
+                <dialog id="new-game-modal" class="new-game-modal">
+                    <form class="new-game-form" id="new-game-form">
+                        <h2>Start a New Game</h2>
+                        <div class="player-entries">
+                            <div class="player-one-entry">
+                                <label for="player-one"><img src="./images/x-image.svg" alt="image for player one"></label>
+                                <input type="text" id="player-one" name="player-one" placeholder="Player 1" minlength="2" maxlength="10" required>
+                            </div>
+                            <div class="player-two-entry">
+                                <label for="player-two"><img src="./images/o-image.svg" alt="image for player 2"></label>
+                                <input type="text" id="player-two" name="player-two" placeholder="Player 2" minlength="2" maxlength="10" required>
+                            </div>
+                        </div>
+                        <div class="submit-cancel-buttons">
+                            <button type="submit" class="ttt-button">Start</button>
+                            <button type="button" id="close-modal-button" class="ttt-button">Cancel</button>
+                        </div>
+                    </form>
+                </dialog>
+                <div>
+                    <button class="ttt-button" id="ttt-button">Reset</button>
+                </div>
+            </div>
+        </div>
+        <div class="footer">Jim HR Systems</div>
+    </div>
+</body>
+<script src="./javascript.js"></script>
+</html>
