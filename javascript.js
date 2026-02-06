@@ -19,6 +19,7 @@ const GameBoard = (() => {
 })();
 
 const DisplayController = (() => {
+    
     const grid = document.querySelector(".tic-tac-toe-grid");
     const cells = [];
 
@@ -46,6 +47,7 @@ const DisplayController = (() => {
 
     const render = (board, handleCellClick) => {
         if (cells.length === 0) {
+            grid.innerHTML = "";
             createGrid(handleCellClick);
         }
 
@@ -68,7 +70,19 @@ const DisplayController = (() => {
         });
     };
 
-    return { render, highlightCells };
+    const disableBoard = () => {
+        cells.forEach(({ cell }) => {
+            cell.disabled = true;
+        });
+    };
+
+    const enableBoard = () => {
+    cells.forEach(({ cell }) => {
+        cell.disabled = false;
+    });
+};
+
+    return { render, highlightCells, disableBoard, enableBoard };
 })();
 
 
@@ -80,6 +94,7 @@ const GameController = (() => {
     ];
 
     let currentPlayerIndex = 0;
+    let gameOver = false;
 
     const winPatterns = [
         [0,1,2],
@@ -112,7 +127,7 @@ const GameController = (() => {
         const currentPlayer = players[currentPlayerIndex];
         const symbol = currentPlayer.symbol;
 
-        if (board[index]) return;
+        if (board[index] || gameOver) return;
 
         GameBoard.setCell(index, symbol);
 
@@ -122,31 +137,35 @@ const GameController = (() => {
         DisplayController.render(updatedBoard, handleCellClick);
 
         if (winningPattern) {
+            gameOver = true;
             DisplayController.highlightCells(winningPattern);
+            DisplayController.disableBoard();
             return;
-            // setTimeout(() => {
-            //     alert(`${currentPlayer.name} wins!`);
-            // }, 50);
         }
 
-        if (!winningPattern && updatedBoard.every(cell => cell !== null)) {
-        setTimeout(() => {
-            alert("It's a tie!");
-        }, 50);
-        return;
-    }
+        if (updatedBoard.every(cell => cell !== null)) {
+            gameOver = true;
+            return;
+        }
 
         currentPlayerIndex = currentPlayerIndex === 0 ? 1 : 0;
         
     };
 
     const reset = () => {
+        gameOver = false;
         GameBoard.reset();
         currentPlayerIndex = 0;
+        DisplayController.enableBoard();
         DisplayController.render(GameBoard.getBoard(), handleCellClick, players[currentPlayerIndex]);
     };
 
-    return { start, reset };
+    const setPlayerNames = (name1, name2) => {
+        players[0].name = name1;
+        players[1].name = name2;
+    };
+
+    return { start, reset, setPlayerNames };
 })();
 
 
@@ -163,15 +182,24 @@ document.getElementById("close-modal-button").addEventListener("click", () => {
 
 document.getElementById("new-game-form").addEventListener("submit", (e) => {
     e.preventDefault();
-    GameController.reset();
+
+
+    const playerOneName = document.getElementById("player-one").value.trim() || "Player 1";
+    const playerTwoName = document.getElementById("player-two").value.trim() || "Player 2";
+
+    GameController.setPlayerNames(playerOneName, playerTwoName);
+
+    document.getElementById("player-one-name").textContent = playerOneName;
+    document.getElementById("player-two-name").textContent = playerTwoName;
+
     document.getElementById("new-game-modal").close();
+    GameController.reset();
+    
 });
 
 // show modal on startup
-// window.addEventListener("DOMContentLoaded", () => {
-//     document.getElementById("new-game-modal").showModal();
-// });
-
-
+window.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("new-game-modal").showModal();
+});
 
 GameController.start();
