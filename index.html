@@ -14,15 +14,34 @@
         <div class="content-pane">
             <div class="game-area">
                 <div class="tic-tac-toe-grid"></div>
+                
                 <div class="score-card">
-                    <div class="player-card">
-                        <img src="./images/x-image.svg" alt="image for player one">
-                        <div class="player-name" id="player-one-name"></div>
+
+                    <div class="player-and-score" id="player-and-score-one">
+
+                        <div class="player-card" id="player-one-card">
+                            <img src="./images/x-image.svg" alt="image for player one">
+                            <div class="player-score" id="player-one-score">00</div>
+                        </div>
+                        <div class="player-name" id="player-one-name">Player 1</div>
                     </div>
-                    <div class="player-card">
-                        <img src="./images/o-image.svg" alt="image for player 2">
-                        <div class="player-name" id="player-two-name"></div>
+
+
+                    <div class="game-status" id="game-status"></div>
+
+
+
+                    <div class="player-and-score" id="player-and-score-two">
+
+                        
+                        <div class="player-card" id="player-two-card">
+                            <div class="player-score" id="player-two-score">00</div>
+                            <img src="./images/o-image.svg" alt="image for player 2">
+                            
+                        </div>
+                        <div class="player-name" id="player-two-name">Player 2</div>
                     </div>
+
                 </div>
                 <dialog id="new-game-modal" class="new-game-modal">
                     <form class="new-game-form" id="new-game-form">
@@ -43,12 +62,12 @@
                         </div>
                     </form>
                 </dialog>
-                <div>
+                <div class="reset-button-box">
                     <button class="ttt-button" id="ttt-button">Reset</button>
                 </div>
             </div>
         </div>
-        <div class="footer">Jim HR Systems</div>
+        <div class="footer">Colette J Beckwith</div>
     </div>
 </body>
 <script src="./javascript.js"></script>

@@ -10,7 +10,7 @@
 h1, .footer {
     padding: .3rem;
     text-align: center;
-    color: whitesmoke;
+    color: white;
 }
 
 .container {
@@ -19,6 +19,7 @@ h1, .footer {
     flex-direction: column;
     max-width: 1000px;
     margin: 0 auto;
+    /* background-color: whitesmoke; */
     background-color: whitesmoke;
 }
 
@@ -93,6 +94,7 @@ dialog {
     transition: all 0.1s ease;
     box-shadow: 1px 2px 5px rgb(220, 219, 219);
     letter-spacing: .05rem;
+    
 }
 
 .new-game-modal {
@@ -102,7 +104,8 @@ dialog {
     box-shadow: 2px 2px 5px rgb(206, 204, 204);
     width: 600px;
     height: 500px;
-    background-color: rgb(250, 250, 250);
+    /* background-color: rgb(250, 250, 250); */
+    background-color: white;
     
 }
 
@@ -128,7 +131,6 @@ dialog {
     gap: 40px;
     align-items: center;
 
-    /* background-color: green; */
 }
 
 .submit-cancel-buttons button {
@@ -145,15 +147,12 @@ dialog {
     align-items: center;
     gap: 35px;
 
-    /* background-color: blue; */
 }
 
 .new-game-form h2 {
     text-align: center;
     margin: 0;
     padding: 0;
-
-    /* background-color: yellow; */
 }
 
 
@@ -177,52 +176,105 @@ input:focus {
 }
 
 .score-card {
-    /* width: 100%; */
+    width: 100%;
+    /* display: grid; */
     display: flex;
+    /* grid-template-columns: 1fr auto 1fr; */
+    align-items: center;
     flex-direction: row;
-    gap: 85px;
-    align-items: center;
-    /* padding: 50px; */
-    /* background-color: green; */
-}
-
-.player-card {
-    border-radius: 80%;
-    padding: 30px;
-    /* width: 170px; */
-    /* height: 170px; */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    gap: 5px;
-    width: 150px;
-    aspect-ratio: 1;
+    /* background-color: yellow; */
+
 }
 
 .player-card {
-    /* border: 3px solid rgba(61, 61, 228, 0.6); */
-    /* outline-offset: 12px; */
-    /* padding: 0px 20px; */
-    /* box-shadow: inset 1px 1px 15px darkgray; */
+
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+
 }
+
+.player-card img {
+    display: block;
+    margin: 0 auto;
+    /* height: auto; */
+    object-fit: contain;
+
+}
+
 
 .player-name {
-    font-size: larger;
+    font-size: 1.2rem;
+    text-align: center;
+    /* word-wrap: break-word; */
+    /* max-width: 80%; */
     font-weight: bold;
-    /* height: 1.2rem; */
-    /* width: 1.6rem; */
-    /* text-align: center; */
-    /* text-wrap: none; */
+    letter-spacing: .08rem;
+    min-height: 1.5em;
+    min-width: 12em;
+}
+
+#player-one-name {
+    color: rgba(61, 61, 228, 0.333);
+}
+
+#player-two-name {
+    color: darkgray;
+}
+
+.player-and-score {
+    border-radius: 5px;
+    display: grid;
+
+    padding: 10px;
+    gap: 10px;
+    justify-items: center;
+    
+}
+
+.player-score {
+    font-size: xx-large;
+    border: 3px solid rgba(61, 61, 228, 0.333);
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    /* padding: 13px; */
+    border-radius: 5px;
+    text-align: center;
+
+    /* background-color: pink; */
+
+    
+}
+
+
+#player-two-score {
+    border: 3px solid darkgray;
+}
+
+#player-and-score-two {
+    justify-self: start;
+}
+
+
+
+#player-and-score-one {
+    justify-self: end;
 }
 
 .game-area {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 45px;
+    justify-content: space-evenly;
+    gap: 30px;
     width: 100%;
+    height: 90vh;
     margin: auto 0;
 }
 
@@ -234,6 +286,20 @@ input:focus {
     background-color: gold;
 }
 
-.game-over-cells:hover {
-    
+/* .game-over-cells:hover {
+
+} */
+
+.game-status {
+    font-size: x-large;
+    width: 32%;
+    justify-self: center;
+    text-align: center;
+}
+
+.active-player {
+    outline: 3px solid rgba(61, 61, 228, 0.6);
+    transform: scale(1.05);
+    transition: all 0.15s ease;
+    /* background-color: beige; */
 }

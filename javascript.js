@@ -1,3 +1,5 @@
+let gameInitialized = false;
+
 const GameBoard = (() => {
 
     const board = Array(9).fill(null);
@@ -19,9 +21,15 @@ const GameBoard = (() => {
 })();
 
 const DisplayController = (() => {
-    
-    const grid = document.querySelector(".tic-tac-toe-grid");
+
+    const gridElement = document.querySelector(".tic-tac-toe-grid");
     const cells = [];
+    const statusElement = document.getElementById("game-status");
+
+    const playerCards = [
+        document.getElementById("player-and-score-one"),
+        document.getElementById("player-and-score-two")
+    ];
 
     const highlightCells = (indices) => {
         indices.forEach(i => {
@@ -33,6 +41,7 @@ const DisplayController = (() => {
         for (let i = 0; i < 9; i++) {
             const cell = document.createElement("button");
             cell.classList.add("grid-cell");
+            cell.setAttribute("aria-label", `Cell ${i + 1}`);
 
             const img = document.createElement("img");
             img.hidden = true;
@@ -41,13 +50,13 @@ const DisplayController = (() => {
             cell.addEventListener("click", () => handleCellClick(i));
 
             cells.push({ cell, img });
-            grid.appendChild(cell);
+            gridElement.appendChild(cell);
         }
     };
 
     const render = (board, handleCellClick) => {
         if (cells.length === 0) {
-            grid.innerHTML = "";
+            gridElement.innerHTML = "";
             createGrid(handleCellClick);
         }
 
@@ -80,12 +89,25 @@ const DisplayController = (() => {
     cells.forEach(({ cell }) => {
         cell.disabled = false;
     });
-};
+    };
 
-    return { render, highlightCells, disableBoard, enableBoard };
+    const setStatus = (message) => {
+        statusElement.textContent = message;
+    };
+
+    const setActivePlayer = (playerIndex) => {
+        playerCards.forEach(card => card.classList.remove("active-player"));
+        playerCards[playerIndex].classList.add("active-player");
+    };
+
+    // const updateScore = (playerIndex, score) => {
+
+    // };
+
+    return { render, highlightCells, disableBoard, enableBoard, setStatus, setActivePlayer };
 })();
 
-
+// 
 const GameController = (() => {
 
     let players = [
@@ -95,6 +117,7 @@ const GameController = (() => {
 
     let currentPlayerIndex = 0;
     let gameOver = false;
+    let gameStarted = false;
 
     const winPatterns = [
         [0,1,2],
@@ -117,6 +140,7 @@ const GameController = (() => {
     };
 
     const start = () => {
+        DisplayController.setActivePlayer(currentPlayerIndex);
         DisplayController.render(GameBoard.getBoard(), handleCellClick, players[currentPlayerIndex]);
     };
 
@@ -136,19 +160,24 @@ const GameController = (() => {
 
         DisplayController.render(updatedBoard, handleCellClick);
 
+        // win condition
         if (winningPattern) {
             gameOver = true;
             DisplayController.highlightCells(winningPattern);
             DisplayController.disableBoard();
+            DisplayController.setStatus(`${currentPlayer.name} wins!`);
             return;
         }
 
+        // tie condition
         if (updatedBoard.every(cell => cell !== null)) {
             gameOver = true;
+            DisplayController.setStatus("It's a tie!");
             return;
         }
 
         currentPlayerIndex = currentPlayerIndex === 0 ? 1 : 0;
+        DisplayController.setActivePlayer(currentPlayerIndex);
         
     };
 
@@ -157,6 +186,7 @@ const GameController = (() => {
         GameBoard.reset();
         currentPlayerIndex = 0;
         DisplayController.enableBoard();
+        DisplayController.setStatus("");
         DisplayController.render(GameBoard.getBoard(), handleCellClick, players[currentPlayerIndex]);
     };
 
@@ -170,19 +200,22 @@ const GameController = (() => {
 
 
 
+// reset match button
 document.getElementById("ttt-button").addEventListener("click", () => {
     const newGameModal = document.getElementById("new-game-modal");
     newGameModal.showModal();
 });
 
+// close new game modal
 document.getElementById("close-modal-button").addEventListener("click", () => {
     document.getElementById("new-game-form").reset();
     document.getElementById("new-game-modal").close();
 });
 
+// submit new game modal
 document.getElementById("new-game-form").addEventListener("submit", (e) => {
     e.preventDefault();
-
+ 
 
     const playerOneName = document.getElementById("player-one").value.trim() || "Player 1";
     const playerTwoName = document.getElementById("player-two").value.trim() || "Player 2";
@@ -194,12 +227,19 @@ document.getElementById("new-game-form").addEventListener("submit", (e) => {
 
     document.getElementById("new-game-modal").close();
     GameController.reset();
+
+    gameInitialized = true;
+    document.getElementById("close-modal-button").style.display = "inline-block";
     
 });
+
+
 
 // show modal on startup
 window.addEventListener("DOMContentLoaded", () => {
     document.getElementById("new-game-modal").showModal();
+    document.getElementById("close-modal-button").style.display = "none";
 });
 
+// start game
 GameController.start();
