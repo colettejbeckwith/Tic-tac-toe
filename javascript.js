@@ -1,5 +1,3 @@
-let gameInitialized = false;
-
 const GameBoard = (() => {
 
     const board = Array(9).fill(null);
@@ -24,7 +22,6 @@ const DisplayController = (() => {
 
     const gridElement = document.querySelector(".tic-tac-toe-grid");
     const cells = [];
-    const statusElement = document.getElementById("game-status");
     const overlay = document.getElementById("game-overlay");
     const winnerImage = document.getElementById("winner-image");
 
@@ -40,6 +37,7 @@ const DisplayController = (() => {
     };
 
     const createGrid = (handleCellClick) => {
+        cells.length = 0;
         for (let i = 0; i < 9; i++) {
             const cell = document.createElement("button");
             cell.classList.add("grid-cell");
@@ -94,10 +92,6 @@ const DisplayController = (() => {
     });
     };
 
-    const setStatus = (message) => {
-        statusElement.textContent = message;
-    };
-
     const setActivePlayer = (playerIndex) => {
         playerCards.forEach(card => card.classList.remove("active-player"));
         playerCards[playerIndex].classList.add("active-player");
@@ -125,10 +119,12 @@ const DisplayController = (() => {
     }
 
     const updateScore = (playerIndex, score) => {
-        document.querySelectorAll(".player-score")[playerIndex].textContent = score;
+        const element = document.querySelectorAll(".player-score")[playerIndex];
+        if (!element) return;
+        element.textContent = score;
     };
 
-    return { render, highlightCells, disableBoard, enableBoard, setStatus, setActivePlayer, showOverlay, hideOverlay, updateScore };
+    return { render, highlightCells, disableBoard, enableBoard, setActivePlayer, showOverlay, hideOverlay, updateScore };
 })();
 
 // 
@@ -153,7 +149,6 @@ const GameController = (() => {
     let currentPlayerIndex = 0;
     let startingPlayerIndex = 0;
     let gameOver = false;
-    let gameNumber = 1;
 
     const checkWin = (board, symbol) => {
         for (const pattern of winPatterns) {
@@ -164,26 +159,17 @@ const GameController = (() => {
         return null;
     };
 
-
-    
-
-
     const handleCellClick = (index) => {
 
-        console.log("handleCellClick -> currentPlayerIndex:", currentPlayerIndex);
-        
         const board = GameBoard.getBoard();
         const currentPlayer = players[currentPlayerIndex];
         const symbol = currentPlayer.symbol;
 
-
         if (board[index] || gameOver) return;
 
         GameBoard.setCell(index, symbol);
-
         const updatedBoard = GameBoard.getBoard();
         const winningPattern = checkWin(updatedBoard, symbol);
-
         DisplayController.render(updatedBoard, handleCellClick);
 
         // win condition
@@ -193,7 +179,8 @@ const GameController = (() => {
             DisplayController.disableBoard();
             currentPlayer.score = Math.min(currentPlayer.score + 1, 99);
             DisplayController.showOverlay(`${currentPlayer.name} wins!`, symbol);
-            DisplayController.updateScore(currentPlayerIndex, currentPlayer.score); 
+            DisplayController.updateScore(currentPlayerIndex, currentPlayer.score);
+            startingPlayerIndex = startingPlayerIndex === 0 ? 1 : 0;
             return;
         }
 
@@ -202,46 +189,32 @@ const GameController = (() => {
             gameOver = true;
             DisplayController.disableBoard();
             DisplayController.showOverlay("It's a tie!", null);
+            startingPlayerIndex = startingPlayerIndex === 0 ? 1 : 0;
             return;
         }
 
-
-        console.log("current player" + currentPlayerIndex);
         currentPlayerIndex = currentPlayerIndex === 0 ? 1 : 0;
-        console.log("current player" + currentPlayerIndex);
-
-
         DisplayController.setActivePlayer(currentPlayerIndex);
-        
     };
-
-    
 
     const start = () => {
         currentPlayerIndex = startingPlayerIndex;
         DisplayController.setActivePlayer(currentPlayerIndex);
-        
-        // removed  players[currentPlayerIndex] arg
         DisplayController.render(GameBoard.getBoard(), handleCellClick);
     };
 
     const reset = () => {
-
         gameOver = false;
-
         GameBoard.reset();
-
         DisplayController.render(GameBoard.getBoard(), handleCellClick);
-
         DisplayController.enableBoard();
-        DisplayController.setStatus("");
         currentPlayerIndex = startingPlayerIndex;
         DisplayController.setActivePlayer(currentPlayerIndex);
     };
 
     const resetFromNewGameModal = () => {
-        gameNumber = 1;
         startingPlayerIndex = 0;
+        resetScores();
         reset();
     };
 
@@ -250,10 +223,16 @@ const GameController = (() => {
         players[1].name = name2;
     };
 
-    return { start, reset, resetFromNewGameModal, setPlayerNames };
+    const getCurrentPlayerIndex = () => { return currentPlayerIndex; };
+
+    const resetScores = () => {
+        players.forEach(p => p.score = 0);
+        DisplayController.updateScore(0, 0);
+        DisplayController.updateScore(1, 0);
+    };
+
+    return { start, reset, resetFromNewGameModal, setPlayerNames, getCurrentPlayerIndex };
 })();
-
-
 
 // reset match button
 document.getElementById("ttt-button").addEventListener("click", () => {
@@ -270,36 +249,20 @@ document.getElementById("close-modal-button").addEventListener("click", () => {
 // submit new game modal
 document.getElementById("new-game-form").addEventListener("submit", (e) => {
     e.preventDefault();
-
-    gameInitialized = true;
     document.getElementById("close-modal-button").style.display = "inline-block";
- 
-
-    const playerOneName = document.getElementById("player-one").value.trim() || "Player 1";
-    const playerTwoName = document.getElementById("player-two").value.trim() || "Player 2";
-
+    const playerOneName = document.getElementById("player-one").value.trim();
+    const playerTwoName = document.getElementById("player-two").value.trim();
     GameController.setPlayerNames(playerOneName, playerTwoName);
-
     document.getElementById("player-one-name").textContent = playerOneName;
     document.getElementById("player-two-name").textContent = playerTwoName;
-
     document.getElementById("new-game-modal").close();
     GameController.resetFromNewGameModal();
-
-    
-    
 });
 
-
 document.getElementById("game-overlay").addEventListener("click", () => {
-    // console.log("overlay clicked");
-    // e.preventDefault();
-    // e.stopPropagation();
     DisplayController.hideOverlay();
     GameController.reset();
 });
-
-
 
 // show modal on startup
 window.addEventListener("DOMContentLoaded", () => {
