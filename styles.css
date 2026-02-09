@@ -17,7 +17,7 @@ h1, .footer {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    max-width: 1000px;
+    max-width: 800px;
     margin: 0 auto;
     /* background-color: whitesmoke; */
     background-color: whitesmoke;
@@ -104,7 +104,6 @@ dialog {
     box-shadow: 2px 2px 5px rgb(206, 204, 204);
     width: 600px;
     height: 500px;
-    /* background-color: rgb(250, 250, 250); */
     background-color: white;
     
 }
@@ -115,8 +114,6 @@ dialog {
     justify-content: space-evenly;
     align-items: center;
     height: 100%;
-
-    /* background-color: red; */
 }
 
 
@@ -176,15 +173,11 @@ input:focus {
 }
 
 .score-card {
-    width: 100%;
-    /* display: grid; */
     display: flex;
-    /* grid-template-columns: 1fr auto 1fr; */
     align-items: center;
     flex-direction: row;
     justify-content: center;
-    /* background-color: yellow; */
-
+    gap: 20px
 }
 
 .player-card {
@@ -199,17 +192,13 @@ input:focus {
 .player-card img {
     display: block;
     margin: 0 auto;
-    /* height: auto; */
     object-fit: contain;
-
 }
 
 
 .player-name {
     font-size: 1.2rem;
     text-align: center;
-    /* word-wrap: break-word; */
-    /* max-width: 80%; */
     font-weight: bold;
     letter-spacing: .08rem;
     min-height: 1.5em;
@@ -227,11 +216,10 @@ input:focus {
 .player-and-score {
     border-radius: 5px;
     display: grid;
-
     padding: 10px;
     gap: 10px;
     justify-items: center;
-    
+    transition: box-shadow 0.25s ease, transform 0.2s ease;
 }
 
 .player-score {
@@ -243,15 +231,9 @@ input:focus {
     justify-content: center;
     width: 80px;
     height: 80px;
-    /* padding: 13px; */
-    border-radius: 5px;
+    border-radius: 50px;
     text-align: center;
-
-    /* background-color: pink; */
-
-    
 }
-
 
 #player-two-score {
     border: 3px solid darkgray;
@@ -286,10 +268,6 @@ input:focus {
     background-color: gold;
 }
 
-/* .game-over-cells:hover {
-
-} */
-
 .game-status {
     font-size: x-large;
     width: 32%;
@@ -297,9 +275,64 @@ input:focus {
     text-align: center;
 }
 
-.active-player {
-    outline: 3px solid rgba(61, 61, 228, 0.6);
-    transform: scale(1.05);
-    transition: all 0.15s ease;
-    /* background-color: beige; */
+@keyframes glowPulse {
+    0% { box-shadow: 0 0 5px rgba(61,61,228,0.5); }
+    50% { box-shadow: 0 0 18px rgba(61,61,228,0.8); }
+    100% { box-shadow: 0 0 5px rgba(61,61,228,0.5); }
+}
+
+@keyframes glowPulse {
+    0% { box-shadow: 0 0 5px darkgray; }
+    50% { box-shadow: 0 0 18px darkgray; }
+    100% { box-shadow: 0 0 5px darkgray; }
+}
+
+#player-and-score-one.active-player {
+    outline: 3px solid rgba(61, 61, 228, 0.333);
+    border: none;
+    box-shadow: 0 0 10px rgba(61, 61, 228, 0.7),
+                0 0 5px rgba(61, 61, 228, 0.4);
+    background-color: rgba(61, 61, 228, 0.102);
+    animation: glowPulse 2s infinite ease-in-out;
+}
+
+#player-and-score-two.active-player {
+    outline: 3px solid darkgray;
+    border: none;
+    box-shadow: 0 0 10px rgba(120, 120, 120, 0.7),
+                0 0 5px rgba(120, 120, 120, 0.4);
+    background-color: rgba(169, 169, 169, 0.111);
+    animation: glowPulse 2s infinite ease-in-out;
+}
+
+.game-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+.overlay-message {
+    background: white;
+    padding: 30px 40px;
+    border-radius: 10px;
+    font-size: 1.5rem;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+.hidden {
+    display: none;
+}
+
+.winner-text {
+    font-size: xxx-large;
+}
+
+.click-for-next-game {
+    font-size: small;
 }
