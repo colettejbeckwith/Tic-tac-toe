@@ -1,6 +1,6 @@
 # Tic-Tac-Toe
 
-Live Demo: 
+Live Demo: https://colettejbeckwith.github.io/Tic-tac-toe/
 
 A browser-based Tic-Tac-Toe game built with vanilla JavaScript, focused on clean separation of concerns and maintainable state management rather than framework usage.
 
